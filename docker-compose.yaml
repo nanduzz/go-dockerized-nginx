@@ -1,0 +1,60 @@
+version: '3'
+
+services: 
+  nginx:
+    build:  
+      dockerfile: ./nginx.dockerfile
+      context: ./nginx
+    image: fernando.carvalho/nginx
+    container_name: nginx
+    ports: 
+      - "8080:80"
+    networks: 
+      - go-app-network
+    depends_on: 
+      - go-app1
+      - go-app2
+      - go-app3
+
+  go-app1:
+    build: 
+      dockerfile: ./goapp.dockerfile
+      context: .
+    image: fernando.carvalho/go-app
+    container_name: go-app1
+    # ports: 
+    #   - "${PORT1}:80"
+    networks: 
+      - go-app-network
+    volumes:
+      - ${VOLUME1}:/static
+
+  go-app2:
+    build: 
+      dockerfile: ./goapp.dockerfile
+      context: .
+    image: fernando.carvalho/go-app
+    container_name: go-app2
+    # ports: 
+    #   - "${PORT2}:80"
+    networks: 
+      - go-app-network
+    volumes:
+      - ${VOLUME2}:/static
+
+  go-app3:
+    build: 
+      dockerfile: ./goapp.dockerfile
+      context: .
+    image: fernando.carvalho/go-app
+    container_name: go-app3
+    # ports: 
+    #   - "${PORT3}:80"
+    networks: 
+      - go-app-network
+    volumes:
+      - ${VOLUME3}:/static
+
+networks: 
+  go-app-network:
+    driver: bridge
