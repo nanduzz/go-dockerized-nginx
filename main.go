@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 func readFile() (string, error) {
@@ -30,6 +31,7 @@ func handleCall(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	name := os.Getenv("NAME")
 
-	w.Write([]byte(number))
+	w.Write([]byte(fmt.Sprintf("Number: %s, name: %s", number, name)))
 }
